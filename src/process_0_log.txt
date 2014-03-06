@@ -1,0 +1,2 @@
+Widgets count : 4, Widgets quantity : 4
+Widgets count : 4, Widgets quantity : 4

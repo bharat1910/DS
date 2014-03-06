@@ -52,6 +52,7 @@ class Listener implements Runnable {
 		            String msg = reader.readLine();
 		            
 		            if (msg.split(":")[1].equals("marker")) {
+		            	System.out.println("Recived marker from : " + msg.split(":")[0]);
 		            	snapshot.receiveMarker(Integer.parseInt(msg.split(":")[0]));
 		            	continue;
 		            }

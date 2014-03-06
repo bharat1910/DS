@@ -48,6 +48,7 @@ public class Snapshot
 				}
 			}
 			bw.write("\n");
+			bw.flush();
 			
 			markersFromOthers = null;
 			isStateRecorded = false;
@@ -62,6 +63,7 @@ public class Snapshot
 		incomingChannelByProcess = new HashMap<Integer, Queue<String>>();
 		
 		bw.write("Widgets count : " + widget.cost + ", Widgets quantity : " + widget.quantity + "\n");
+		bw.flush();
 		
 		for (int i=0; i<nodes.length; i++) {
 			if (i == processId) {

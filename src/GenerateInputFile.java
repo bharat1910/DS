@@ -17,7 +17,7 @@ public class GenerateInputFile
 			for (int j=0; j<30; j++) {
 				int prob = (int) (Math.random() * 15);
 				
-				if (i != 0 || (i == 0 && prob <9)) {
+				if (i != 0 || (i == 0 && prob <14)) {
 					int pId =  i;
 					while (pId == i) {
 						pId = (int) (Math.random() * processId);

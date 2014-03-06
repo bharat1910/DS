@@ -1,2 +1,1 @@
-Widgets Cost : 99, Widgets Quantity : 98
-
+Widgets Cost : 100, Widgets Quantity : 100

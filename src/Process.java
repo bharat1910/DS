@@ -89,10 +89,15 @@ public class Process
 	        }
 	}
 	
-	public static void main(String[] args)
+	public static void main(String[] args) throws NumberFormatException, IOException
 	{
+		String input;
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		
 		processId = Integer.parseInt(args[0]);
+		
 		readFile();
+		
 		// Create a new, second thread
 		Listen l = new Listen(nodes, processId);
 		Thread t;
@@ -101,14 +106,13 @@ public class Process
 	    t.start(); // Start the thread
 	    
 	    
-	    while(true){
+	    while((input = br.readLine()) != null){
 	    		
-	    	String input = System.console().readLine();
-	    	String tockens[] = input.split(":");
-	    	Integer nodeId = Integer.parseInt(tockens[0]);
+	    	String tokens[] = input.split(":");
+	    	Integer nodeId = Integer.parseInt(tokens[0]);
 	    	String hostName = nodes[nodeId].ipAddress;
 	    	Integer portNumber = nodes[nodeId].portNumber;
-	    	String message = tockens[1];
+	    	String message = tokens[1];
 	    	
 	    	try {
 	    	   Socket socket = new Socket(hostName, portNumber);

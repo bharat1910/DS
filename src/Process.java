@@ -71,9 +71,9 @@ public class Process
 		
 		Widget widget = new Widget(Integer.parseInt(args[1]), Integer.parseInt(args[2]));
 		
-		Snapshot snapshot = new Snapshot(nodes, processId, widget);
-		
 		readFile();
+		
+		Snapshot snapshot = new Snapshot(nodes, processId, widget);
 		
 		TimeStamp timestamp = new TimeStamp(nodes.length, processId);
 		

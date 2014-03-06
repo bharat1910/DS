@@ -61,7 +61,7 @@ public class Snapshot
 		isStateRecorded = true;
 		incomingChannelByProcess = new HashMap<Integer, Queue<String>>();
 		
-		bw.write("Widgets count : " + widget.cost + ", Widgets quantity : " + widget.quantity);
+		bw.write("Widgets count : " + widget.cost + ", Widgets quantity : " + widget.quantity + "\n");
 		
 		for (int i=0; i<nodes.length; i++) {
 			if (i == processId) {

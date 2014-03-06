@@ -13,11 +13,12 @@ class Listener implements Runnable {
 	Snapshot snapshot;
 	Widget widget;
 	
-	Listener(Node[] x, int y, TimeStamp t, Widget w) {
+	Listener(Node[] x, int y, TimeStamp t, Widget w, Snapshot s) {
 		nodes = x;
 		id = y;
 		timestamp = t;
 		widget = w;
+		snapshot = s;
 	}
 	
 	public int parseLamport(String msg)
@@ -76,11 +77,6 @@ class Listener implements Runnable {
 					System.out.println(e);
 			}
 	   }
-	
-	public void setSnapshotObj(Snapshot s)
-	{
-		snapshot = s;
-	}
 	
 	
 }

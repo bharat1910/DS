@@ -71,12 +71,14 @@ public class Process
 		
 		Widget widget = new Widget(Integer.parseInt(args[1]), Integer.parseInt(args[2]));
 		
+		Snapshot snapshot = new Snapshot(nodes, processId, widget);
+		
 		readFile();
 		
 		TimeStamp timestamp = new TimeStamp(nodes.length, processId);
 		
 		// Create a new, second thread
-		Listener l = new Listener(nodes, processId, timestamp, widget);
+		Listener l = new Listener(nodes, processId, timestamp, widget, snapshot);
 		Thread t;
 	    t = new Thread(l);
 	    System.out.println("Child thread: " + t);
@@ -88,9 +90,7 @@ public class Process
 	    	
 	    	// No ':' in the message is indicative of a snapshot initiation step,
 	    	// because there is no receiver as such.
-	    	if (tokens.length == 0) {
-	    		Snapshot snapshot = new Snapshot(nodes, processId, widget);
-	    		l.setSnapshotObj(snapshot);
+	    	if (tokens.length == 1) {
 	    		snapshot.initiateSnapshot();
 	    		continue;
 	    	}

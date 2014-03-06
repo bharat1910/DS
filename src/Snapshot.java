@@ -79,7 +79,7 @@ public class Snapshot
 		    	   System.out.println("Marker sent to : " + i);
 		    	   socket.close();
 			} catch(Exception e) {
-				
+				System.out.println(e);
 			}
 		}
 	}

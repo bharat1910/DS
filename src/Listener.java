@@ -10,11 +10,14 @@ class Listener implements Runnable {
 	Node []nodes;
 	int id;
 	TimeStamp timestamp;
+	Snapshot snapshot;
+	Widget widget;
 	
-	Listener(Node[] x, int y, TimeStamp t){
+	Listener(Node[] x, int y, TimeStamp t, Widget w){
 		nodes = x;
 		id = y;
 		timestamp = t;
+		widget = w;
 	}
 	
 	public int parseLamport(String msg)
@@ -47,11 +50,21 @@ class Listener implements Runnable {
 					BufferedReader reader = new BufferedReader(new InputStreamReader(input));
 		            String msg = reader.readLine();
 		            
+		            if (msg.split(":")[1].equals("marker")) {
+		            	snapshot.receiveMarker(Integer.parseInt(msg.split(":")[0]));
+		            	continue;
+		            }
+		            
+		            widget.update(Integer.parseInt(msg.split(":")[0].split(",")[0]), Integer.parseInt(msg.split(":")[0].split(",")[1]));
+		            
 		            int l = parseLamport(msg);
 		            int[] v = parseVector(msg);
 		            timestamp.increment(l, v);
 		            
 					System.out.println("Message received - " + msg.split(":")[0] + ":" + timestamp.getLamport() + ":" + timestamp.getVector());
+			    	System.out.println("Current Widget cost : " + widget.cost + ", Widget quantity : " + widget.quantity);
+			    	System.out.println();
+			    	   
 					connection.close();
 				}
 				//System.out.println("Stopped Listening !!");
@@ -59,4 +72,11 @@ class Listener implements Runnable {
 					System.out.println(e);
 			}
 	   }
+	
+	public void setSnapshotObj(Snapshot s)
+	{
+		snapshot = s;
+	}
+	
+	
 }

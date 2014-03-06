@@ -5,6 +5,17 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+/**
+ * Format of the messages -
+ * 
+ * Process needs to be given 3 parameters (space separated) - id 'initial cost' 'initial quantity' 
+ * 
+ * Marker initiation : any random message without ":" will start a snapshot
+ * Marker send : 'process id of the process sending it' : "marker"
+ * 
+ * Widgets sent (console, file) : to process : cost, quantity
+ * Widgets sent (over the channel) : cost, quantity : lamport timestamp : vector timestamp (separated by commas)
+ */
 public class Process
 {
 	private static Node []nodes;
@@ -46,6 +57,11 @@ public class Process
 	        }
 	}
 	
+	public void initiateSnapshot()
+	{
+		
+	}
+	
 	public static void main(String[] args) throws NumberFormatException, IOException
 	{
 		String input;
@@ -53,21 +69,32 @@ public class Process
 		
 		processId = Integer.parseInt(args[0]);
 		
+		Widget widget = new Widget(Integer.parseInt(args[1]), Integer.parseInt(args[2]));
+		
 		readFile();
 		
 		TimeStamp timestamp = new TimeStamp(nodes.length, processId);
 		
 		// Create a new, second thread
-		Listener l = new Listener(nodes, processId, timestamp);
+		Listener l = new Listener(nodes, processId, timestamp, widget);
 		Thread t;
 	    t = new Thread(l);
 	    System.out.println("Child thread: " + t);
 	    t.start(); // Start the thread
 	    
-	    
 	    while((input = br.readLine()) != null){
 	    		
 	    	String tokens[] = input.split(":");
+	    	
+	    	// No ':' in the message is indicative of a snapshot initiation step,
+	    	// because there is no receiver as such.
+	    	if (tokens.length == 0) {
+	    		Snapshot snapshot = new Snapshot(nodes, processId, widget);
+	    		l.setSnapshotObj(snapshot);
+	    		snapshot.initiateSnapshot();
+	    		continue;
+	    	}
+	    	
 	    	Integer nodeId = Integer.parseInt(tokens[0]);
 	    	String hostName = nodes[nodeId].ipAddress;
 	    	Integer portNumber = nodes[nodeId].portNumber;
@@ -81,12 +108,16 @@ public class Process
 	    	}
 	    	message = message.substring(0, message.length() - 1);
 	    	
+	    	widget.update(-1 * Integer.parseInt(tokens[1].split(",")[0]), -1 * Integer.parseInt(tokens[1].split(",")[1]));
+	    	
 	    	try {
 	    	   Socket socket = new Socket(hostName, portNumber);
 	    	   PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 	    	   out.println(message);
 	    	   out.flush();
 	    	   System.out.println("Message sent " + message);
+	    	   System.out.println("Current Widget cost : " + widget.cost + ", Widget quantity : " + widget.quantity);
+	    	   System.out.println();
 	    	   socket.close();
 	    	} catch (Exception e) {
 	    		System.out.println(e.toString());

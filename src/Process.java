@@ -62,12 +62,11 @@ public class Process
 		
 	}
 	
-	public static void main(String[] args) throws NumberFormatException, IOException
+	public static void main(String[] args) throws NumberFormatException, IOException, InterruptedException
 	{
 		String input;
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		
 		processId = Integer.parseInt(args[0]);
+		BufferedReader br = new BufferedReader(new FileReader("input_file_" + processId + ".txt"));
 		
 		Widget widget = new Widget(Integer.parseInt(args[1]), Integer.parseInt(args[2]));
 		
@@ -123,5 +122,7 @@ public class Process
 	    		System.out.println(e.toString());
 	    	}	
 	    }
+	    
+	    br.close();
 	}
 }

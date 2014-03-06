@@ -13,7 +13,7 @@ class Listener implements Runnable {
 	Snapshot snapshot;
 	Widget widget;
 	
-	Listener(Node[] x, int y, TimeStamp t, Widget w){
+	Listener(Node[] x, int y, TimeStamp t, Widget w) {
 		nodes = x;
 		id = y;
 		timestamp = t;
@@ -65,7 +65,9 @@ class Listener implements Runnable {
 			    	System.out.println("Current Widget cost : " + widget.cost + ", Widget quantity : " + widget.quantity);
 			    	System.out.println();
 			    	
-			    	snapshot.checkAndAddMessage(msg.split(":")[0] + ":" + msg.split(":")[1] + ":" + timestamp.getLamport() + ":" + timestamp.getVector());
+			    	if (snapshot != null) {
+				    	snapshot.checkAndAddMessage(msg.split(":")[0] + ":" + msg.split(":")[1] + ":" + timestamp.getLamport() + ":" + timestamp.getVector());
+			    	}
 			    	
 					connection.close();
 				}

@@ -86,6 +86,7 @@ public class Snapshot
 	public void checkAndAddMessage(String s)
 	{
 		int fromProcess = Integer.parseInt(s.split(":")[0]);
+
 		if (isStateRecorded && !markersFromOthers.contains(fromProcess)) {
 			if(!incomingChannelByProcess.containsKey(fromProcess)) {
 				incomingChannelByProcess.put(fromProcess, new LinkedList<String>());

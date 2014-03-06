@@ -9,13 +9,32 @@ class Listener implements Runnable {
 	   
 	Node []nodes;
 	int id;
-	TimeStamp t;
+	TimeStamp timestamp;
 	
 	Listener(Node[] x, int y, TimeStamp t){
 		nodes = x;
 		id = y;
-		this.t = t;
+		timestamp = t;
 	}
+	
+	public int parseLamport(String msg)
+	{
+		return Integer.parseInt(msg.split(":")[1]);
+	}
+	
+	public int[] parseVector(String msg)
+	{
+		String ls = msg.split(":")[2];
+		
+		String[] lsArr = ls.split(",");
+		int[] v = new int[lsArr.length];
+		for (int i=0; i<lsArr.length; i++) {
+			v[i] = Integer.parseInt(lsArr[i]);
+		}
+		
+		return v;
+	}
+	
 	public void run() {
 		   
 		   try {
@@ -27,6 +46,11 @@ class Listener implements Runnable {
 					input = connection.getInputStream();
 					BufferedReader reader = new BufferedReader(new InputStreamReader(input));
 		            String msg = reader.readLine();
+		            
+		            int l = parseLamport(msg);
+		            int[] v = parseVector(msg);
+		            timestamp.increment(l, v);
+		            
 					System.out.println("Message received - " + msg);
 					connection.close();
 				}

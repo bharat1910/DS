@@ -55,7 +55,7 @@ public class Process
 		
 		readFile();
 		
-		TimeStamp timestamp = new TimeStamp(nodes.length);
+		TimeStamp timestamp = new TimeStamp(nodes.length, processId);
 		
 		// Create a new, second thread
 		Listener l = new Listener(nodes, processId, timestamp);
@@ -71,7 +71,15 @@ public class Process
 	    	Integer nodeId = Integer.parseInt(tokens[0]);
 	    	String hostName = nodes[nodeId].ipAddress;
 	    	Integer portNumber = nodes[nodeId].portNumber;
-	    	String message = tokens[1];
+	    	String message = tokens[1] + ":";
+	    	
+	    	//increment timestamps and append to the message
+	    	timestamp.increment(-1, null);
+	    	message += timestamp.lamport + ":";
+	    	for (int i : timestamp.vector) {
+	    		message += i + ",";
+	    	}
+	    	message = message.substring(0, message.length() - 1);
 	    	
 	    	try {
 	    	   Socket socket = new Socket(hostName, portNumber);

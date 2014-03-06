@@ -10,6 +10,21 @@ class TimeStamp {
 		this.nodeIndex = nodeIndex;
 	}
 	
+	public String getVector()
+	{
+		String s = "";
+		for (int a : vector) {
+			s += a + ",";
+		}
+		
+		return s.substring(0, s.length() - 1);
+	}
+	
+	public int getLamport()
+	{
+		return lamport;
+	}
+	
 	public void increment(int l, int[] v)
 	{
 		if (l == -1) {

@@ -51,7 +51,7 @@ class Listener implements Runnable {
 		            int[] v = parseVector(msg);
 		            timestamp.increment(l, v);
 		            
-					System.out.println("Message received - " + msg);
+					System.out.println("Message received - " + msg.split(":")[0] + ":" + timestamp.getLamport() + ":" + timestamp.getVector());
 					connection.close();
 				}
 				//System.out.println("Stopped Listening !!");

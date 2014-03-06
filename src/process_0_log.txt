@@ -1,2 +1,6 @@
-Widgets count : 4, Widgets quantity : 4
-Widgets count : 4, Widgets quantity : 4
+Widgets count : 5, Widgets quantity : 5
+Widgets Cost : 5, Widgets Quantity : 5
+
+Widgets count : 5, Widgets quantity : 5
+Widgets Cost : 5, Widgets Quantity : 5
+

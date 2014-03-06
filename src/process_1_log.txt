@@ -1,4 +1,6 @@
-Widgets count : 16, Widgets quantity : 16
-Widgets count : 16, Widgets quantity : 16
-Widgets count : 16, Widgets quantity : 16
-Widgets count : 16, Widgets quantity : 16
+Widgets count : 15, Widgets quantity : 15
+Widgets Cost : 15, Widgets Quantity : 15
+
+Widgets count : 15, Widgets quantity : 15
+Widgets Cost : 15, Widgets Quantity : 15
+

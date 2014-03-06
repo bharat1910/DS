@@ -39,8 +39,6 @@ public class Snapshot
 		
 		// Snapshot ends
 		if (markersFromOthers.size() == nodes.length - 1) {
-			
-			bw.write("Widgets Cost : " + widget.cost + ", Widgets Quantity : " + widget.quantity + "\n");
 			for (Entry<Integer, Queue<String>>  e : incomingChannelByProcess.entrySet()) {
 				Queue<String> q = e.getValue();
 				while (!q.isEmpty()) {
@@ -62,7 +60,7 @@ public class Snapshot
 		isStateRecorded = true;
 		incomingChannelByProcess = new HashMap<Integer, Queue<String>>();
 		
-		bw.write("Widgets count : " + widget.cost + ", Widgets quantity : " + widget.quantity + "\n");
+		bw.write("Widgets Cost : " + widget.cost + ", Widgets Quantity : " + widget.quantity + "\n");
 		bw.flush();
 		
 		for (int i=0; i<nodes.length; i++) {
@@ -77,7 +75,7 @@ public class Snapshot
 		    	   PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 		    	   out.println(processId + ":marker");
 		    	   out.flush();
-		    	   System.out.println("Marker sent to " + i);
+		    	   System.out.println("Marker sent to : " + i);
 		    	   socket.close();
 			} catch(Exception e) {
 				

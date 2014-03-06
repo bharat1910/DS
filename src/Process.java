@@ -1,50 +1,9 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.ServerSocket;
 import java.net.Socket;
-
-class Node{
-	String ipAddress;
-	Integer portNumber;
-}
-
-class Listen implements Runnable {
-	   // This is the entry point for the second thread.
-	   
-	Node []nodes;
-	int id;
-	
-	Listen(Node[] x, int y){
-		nodes = x;
-		id = y;
-	}
-	public void run() {
-		   
-		   try {
-				ServerSocket serverSocket = new ServerSocket(nodes[id].portNumber);
-				//Socket clientSocket = serverSocket.accept();
-				InputStream input = null;
-				String inputLine;
-				while (true) {
-					Socket connection = serverSocket.accept();
-					input = connection.getInputStream();
-					BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-		            String msg = reader.readLine();
-					System.out.println("Message received - " + msg);
-					connection.close();
-				}
-				//System.out.println("Stopped Listening !!");
-			} catch (Exception e) {
-					System.out.println(e);
-			}
-	   }
-}	   
-
-
 
 public class Process
 {
@@ -52,8 +11,6 @@ public class Process
 	private static final String INPUT_FILE = "input.txt";
 	private static Integer totalNodes;
 	private static Integer processId;
-	
-	
 	
 	private static void readFile(){
 		
@@ -98,8 +55,10 @@ public class Process
 		
 		readFile();
 		
+		TimeStamp timestamp = new TimeStamp(nodes.length);
+		
 		// Create a new, second thread
-		Listen l = new Listen(nodes, processId);
+		Listener l = new Listener(nodes, processId, timestamp);
 		Thread t;
 	    t = new Thread(l);
 	    System.out.println("Child thread: " + t);

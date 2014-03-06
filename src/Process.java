@@ -84,7 +84,7 @@ public class Process
 	    t.start(); // Start the thread
 	    
 	    while((input = br.readLine()) != null){
-	    		
+	    	Thread.sleep(1000);
 	    	String tokens[] = input.split(":");
 	    	
 	    	// No ':' in the message is indicative of a snapshot initiation step,

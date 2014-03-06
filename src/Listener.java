@@ -46,6 +46,7 @@ class Listener implements Runnable {
 				//Socket clientSocket = serverSocket.accept();
 				InputStream input = null;
 				while (true) {
+					Thread.sleep(1000);
 					Socket connection = serverSocket.accept();
 					input = connection.getInputStream();
 					BufferedReader reader = new BufferedReader(new InputStreamReader(input));

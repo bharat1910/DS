@@ -67,17 +67,17 @@ public class Process
 	            String line;
 	            line = bufferedReader.readLine();
 	            totalNodes = Integer.parseInt(line);
-	            line = bufferedReader.readLine();
 	            nodes = new Node[totalNodes];
+	            
 	            int i = 0;
 	            while((line = bufferedReader.readLine()) != null) {
 	                Node n = new Node();
-	            	String[] tockens = line.split(" ");
-	            	n.ipAddress = tockens[0];
-	            	n.portNumber = Integer.parseInt(tockens[1]);
+	            	String[] tokens = line.split(" ");
+	            	n.ipAddress = tokens[0];
+	            	n.portNumber = Integer.parseInt(tokens[1]);
 	            	nodes[i] = n;
 	            	i++;
-	            }	
+	            }
 
 	            // Always close files.
 	            bufferedReader.close();			

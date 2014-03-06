@@ -14,7 +14,7 @@ import java.net.Socket;
  * Marker send : 'process id of the process sending it' : "marker"
  * 
  * Widgets sent (console, file) : to process : cost, quantity
- * Widgets sent (over the channel) : cost, quantity : lamport timestamp : vector timestamp (separated by commas)
+ * Widgets sent (over the channel) : from process : cost, quantity : lamport timestamp : vector timestamp (separated by commas)
  */
 public class Process
 {
@@ -98,7 +98,7 @@ public class Process
 	    	Integer nodeId = Integer.parseInt(tokens[0]);
 	    	String hostName = nodes[nodeId].ipAddress;
 	    	Integer portNumber = nodes[nodeId].portNumber;
-	    	String message = tokens[1] + ":";
+	    	String message = processId + ":" + tokens[1] + ":";
 	    	
 	    	//increment timestamps and append to the message
 	    	timestamp.increment(-1, null);

@@ -22,12 +22,12 @@ class Listener implements Runnable {
 	
 	public int parseLamport(String msg)
 	{
-		return Integer.parseInt(msg.split(":")[1]);
+		return Integer.parseInt(msg.split(":")[2]);
 	}
 	
 	public int[] parseVector(String msg)
 	{
-		String ls = msg.split(":")[2];
+		String ls = msg.split(":")[3];
 		
 		String[] lsArr = ls.split(",");
 		int[] v = new int[lsArr.length];
@@ -55,16 +55,18 @@ class Listener implements Runnable {
 		            	continue;
 		            }
 		            
-		            widget.update(Integer.parseInt(msg.split(":")[0].split(",")[0]), Integer.parseInt(msg.split(":")[0].split(",")[1]));
+		            widget.update(Integer.parseInt(msg.split(":")[1].split(",")[0]), Integer.parseInt(msg.split(":")[1].split(",")[1]));
 		            
 		            int l = parseLamport(msg);
 		            int[] v = parseVector(msg);
 		            timestamp.increment(l, v);
 		            
-					System.out.println("Message received - " + msg.split(":")[0] + ":" + timestamp.getLamport() + ":" + timestamp.getVector());
+					System.out.println("Message received - " + msg.split(":")[1] + ":" + timestamp.getLamport() + ":" + timestamp.getVector());
 			    	System.out.println("Current Widget cost : " + widget.cost + ", Widget quantity : " + widget.quantity);
 			    	System.out.println();
-			    	   
+			    	
+			    	snapshot.checkAndAddMessage(msg.split(":")[0] + ":" + msg.split(":")[1] + ":" + timestamp.getLamport() + ":" + timestamp.getVector());
+			    	
 					connection.close();
 				}
 				//System.out.println("Stopped Listening !!");

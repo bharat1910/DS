@@ -47,6 +47,7 @@ public class Snapshot
 			}
 			bw.write("\n");
 			bw.flush();
+			System.out.println();
 			
 			markersFromOthers = null;
 			isStateRecorded = false;

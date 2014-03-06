@@ -14,10 +14,10 @@ public class GenerateInputFile
 		for (int i=0; i<processId; i++) {
 			BufferedWriter bw = new BufferedWriter(new FileWriter("input_file_" + i + ".txt"));
 		
-			for (int j=0; j<20; j++) {
-				int prob = (int) (Math.random() * 10);
+			for (int j=0; j<30; j++) {
+				int prob = (int) (Math.random() * 15);
 				
-				if (prob <9) {
+				if (i != 0 || (i == 0 && prob <9)) {
 					int pId =  i;
 					while (pId == i) {
 						pId = (int) (Math.random() * processId);

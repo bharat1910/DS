@@ -45,6 +45,7 @@ public class Snapshot
 			for (Entry<Integer, Queue<String>>  e : incomingChannelByProcess.get(snapId).entrySet()) {
 				Queue<String> q = e.getValue();
 				while (!q.isEmpty()) {
+					bw.write("snapshot" + snapId + " ");
 					bw.write(q.remove() + "\n");
 				}
 			}
@@ -67,7 +68,7 @@ public class Snapshot
 		incomingChannelByProcess.put(snapshotId, incomingChannelByProcessForThisSnapshot);
 		
 		int[] temp = widget.getState();
-		bw.write("snapshot id " + snapshotId + " Widgets Cost : " + temp[0] + ", Widgets Quantity : " + temp[1] + "\n");
+		bw.write("snapshot" + snapshotId + " Widgets Cost : " + temp[0] + ", Widgets Quantity : " + temp[1] + "\n");
 		bw.flush();
 		widget.releaseLock();
 		

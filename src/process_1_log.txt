@@ -1,8 +1,4 @@
-snapshot id 0 Widgets Cost : 92, Widgets Quantity : 85
+snapshot0 Widgets Cost : 97, Widgets Quantity : 97
 
-snapshot id 1 Widgets Cost : 92, Widgets Quantity : 81
-
-snapshot id 2 Widgets Cost : 94, Widgets Quantity : 70
-
-snapshot id 3 Widgets Cost : 97, Widgets Quantity : 77
+snapshot1 Widgets Cost : 98, Widgets Quantity : 105
 

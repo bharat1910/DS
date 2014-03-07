@@ -4,8 +4,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class Widget
 {
-	volatile static private int cost;
-	volatile static private int quantity;
+	static volatile private int cost;
+	static volatile private int quantity;
 	Lock myLock = new ReentrantLock();
 	
 	public Widget(int c, int q)

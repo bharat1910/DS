@@ -12,13 +12,15 @@ class Listener implements Runnable {
 	TimeStamp timestamp;
 	Snapshot snapshot;
 	Widget widget;
+	Integer snapshotId;
 	
-	Listener(Node[] x, int y, TimeStamp t, Widget w, Snapshot s) {
+	Listener(Node[] x, int y, TimeStamp t, Widget w, Snapshot s, Integer snapId) {
 		nodes = x;
 		id = y;
 		timestamp = t;
 		widget = w;
 		snapshot = s;
+		snapshotId = snapId;
 	}
 	
 	public int parseLamport(String msg)
@@ -53,9 +55,12 @@ class Listener implements Runnable {
 					BufferedReader reader = new BufferedReader(new InputStreamReader(input));
 		            String msg = reader.readLine();
 		            
-		            if (msg.split(":")[1].equals("marker")) {
+		            if (msg.split(":")[1].contains("marker")) {
+		            	System.out.println("Message - " + msg);
 		            	System.out.println("Recived marker from : " + msg.split(":")[0]);
-		            	snapshot.receiveMarker(Integer.parseInt(msg.split(":")[0]));
+		            	int snapId = Integer.parseInt(msg.split(":")[1].split("-")[1]);
+		            	snapshot.receiveMarker(Integer.parseInt(msg.split(":")[0]), snapId);
+		            	System.out.println("DONE");
 		            	continue;
 		            }
 		            
@@ -74,7 +79,7 @@ class Listener implements Runnable {
 			    	System.out.println();
 			    	
 			    	if (snapshot != null) {
-				    	snapshot.checkAndAddMessage(msg.split(":")[0] + ":" + msg.split(":")[1] + ":" + timestamp.getLamport() + ":" + timestamp.getVector());
+				    	snapshot.checkAndAddMessage(msg.split(":")[0] + ":" + msg.split(":")[1] + ":" + timestamp.getLamport() + ":" + timestamp.getVector(), snapshotId);
 			    	}
 			    	
 					connection.close();

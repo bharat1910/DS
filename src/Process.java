@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
@@ -22,6 +21,7 @@ public class Process
 	private static final String INPUT_FILE = "input.txt";
 	private static Integer totalNodes;
 	private static Integer processId;
+	private static Integer snapshotId;
 	
 	private static void readFile(){
 		
@@ -66,6 +66,7 @@ public class Process
 	{
 		String input;
 		processId = Integer.parseInt(args[0]);
+		snapshotId = 0;
 		BufferedReader br = new BufferedReader(new FileReader("input_file_" + processId + ".txt"));
 		
 		Widget widget = new Widget(Integer.parseInt(args[1]), Integer.parseInt(args[2]));
@@ -77,7 +78,7 @@ public class Process
 		TimeStamp timestamp = new TimeStamp(nodes.length, processId);
 		
 		// Create a new, second thread
-		Listener l = new Listener(nodes, processId, timestamp, widget, snapshot);
+		Listener l = new Listener(nodes, processId, timestamp, widget, snapshot, snapshotId);
 		Thread t;
 	    t = new Thread(l);
 	    System.out.println("Child thread: " + t);
@@ -93,7 +94,9 @@ public class Process
 	    	// because there is no receiver as such.
 	    	if (tokens.length == 1) {
 	    		//l.putToSleep();
-	    		snapshot.initiateSnapshot();
+	    		Integer tmp = new Integer(snapshotId);
+	    		snapshot.initiateSnapshot(tmp);
+	    		snapshotId++;
 	    		continue;
 	    	}
 	    	

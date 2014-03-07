@@ -15,9 +15,9 @@ public class Snapshot
 {
 	Node[] nodes;
 	int processId;
-	Set<Integer> markersFromOthers;
-	Map<Integer, Queue<String>> incomingChannelByProcess;
-	boolean isStateRecorded;
+	Map<Integer,Set<Integer>> markersFromOthers;
+	Map<Integer,Map<Integer, Queue<String>>> incomingChannelByProcess;
+	boolean []isStateRecorded; 
 	BufferedWriter bw;
 	Widget widget;
 
@@ -27,19 +27,22 @@ public class Snapshot
 		processId = pId;
 		bw = new BufferedWriter(new FileWriter("process_" + processId + "_log.txt"));
 		widget = w;
+		isStateRecorded = new boolean[n.length];
+		markersFromOthers = new HashMap<Integer,Set<Integer>>();
+		incomingChannelByProcess = new HashMap<Integer,Map<Integer, Queue<String>>>();
 	}
 	
-	public void receiveMarker(int id) throws IOException
+	public void receiveMarker(int id, int snapId) throws IOException
 	{
-		if (!isStateRecorded) {
-			initiateSnapshot();
+		if (!isStateRecorded[snapId]) {
+			initiateSnapshot(snapId);
 		}
 		
-		markersFromOthers.add(id);
+		markersFromOthers.get(snapId).add(id);
 		
 		// Snapshot ends
-		if (markersFromOthers.size() == nodes.length - 1) {
-			for (Entry<Integer, Queue<String>>  e : incomingChannelByProcess.entrySet()) {
+		if (markersFromOthers.get(snapId).size() == nodes.length - 1) {
+			for (Entry<Integer, Queue<String>>  e : incomingChannelByProcess.get(snapId).entrySet()) {
 				Queue<String> q = e.getValue();
 				while (!q.isEmpty()) {
 					bw.write(q.remove() + "\n");
@@ -49,20 +52,22 @@ public class Snapshot
 			bw.flush();
 			System.out.println();
 			
-			markersFromOthers = null;
-			isStateRecorded = false;
-			incomingChannelByProcess = null;
+			//markersFromOthers = null;
+			//isStateRecorded[snapId] = false;
+			//incomingChannelByProcess = null;
 		}
 	}
 	
-	public void initiateSnapshot() throws IOException
+	public void initiateSnapshot(Integer snapshotId) throws IOException
 	{
-		markersFromOthers = new HashSet<Integer>();
-		isStateRecorded = true;
-		incomingChannelByProcess = new HashMap<Integer, Queue<String>>();
+		Set<Integer>markersFromOthersForThisSnapshot = new HashSet<Integer>();	
+		markersFromOthers.put(snapshotId,markersFromOthersForThisSnapshot);
+		isStateRecorded[snapshotId] = true;
+		Map<Integer, Queue<String>>incomingChannelByProcessForThisSnapshot = new HashMap<Integer, Queue<String>>();
+		incomingChannelByProcess.put(snapshotId, incomingChannelByProcessForThisSnapshot);
 		
 		int[] temp = widget.getState();
-		bw.write("Widgets Cost : " + temp[0] + ", Widgets Quantity : " + temp[1] + "\n");
+		bw.write("snapshot id " + snapshotId + " Widgets Cost : " + temp[0] + ", Widgets Quantity : " + temp[1] + "\n");
 		bw.flush();
 		widget.releaseLock();
 		
@@ -73,17 +78,17 @@ public class Snapshot
 			
 	    	String hostName = nodes[i].ipAddress;
 	    	Integer portNumber = nodes[i].portNumber;
-	    	while(!sendMessage(hostName, portNumber,i));
+	    	while(!sendMessage(hostName, portNumber,i, snapshotId));
 			
 		}
 	}
 	
-	private boolean sendMessage(String hostName, Integer portNumber,int i){
+	private boolean sendMessage(String hostName, Integer portNumber,int i, int snapshotId){
 		
 		try {
 	    	   Socket socket = new Socket(hostName, portNumber);
 	    	   PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-	    	   out.println(processId + ":marker");
+	    	   out.println(processId + ":marker-" +snapshotId);
 	    	   out.flush();
 	    	   System.out.println("Marker sent to : " + i);
 	    	   socket.close();
@@ -94,16 +99,16 @@ public class Snapshot
 		}
 		
 	}
-	public void checkAndAddMessage(String s)
+	public void checkAndAddMessage(String s, Integer snapshotId)
 	{
 		int fromProcess = Integer.parseInt(s.split(":")[0]);
-
-		if (isStateRecorded && !markersFromOthers.contains(fromProcess)) {
-			if(!incomingChannelByProcess.containsKey(fromProcess)) {
-				incomingChannelByProcess.put(fromProcess, new LinkedList<String>());
+		
+		if (isStateRecorded[snapshotId] && !markersFromOthers.get(snapshotId).contains(fromProcess)) {
+			if(!incomingChannelByProcess.get(snapshotId).containsKey(fromProcess)) {
+				incomingChannelByProcess.get(snapshotId).put(fromProcess, new LinkedList<String>());
 			}
 			
-			incomingChannelByProcess.get(fromProcess).add(s);
+			incomingChannelByProcess.get(snapshotId).get(fromProcess).add(s);
 		}
 	}
 }

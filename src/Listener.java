@@ -59,7 +59,7 @@ class Listener implements Runnable {
 		            	System.out.println("Message - " + msg);
 		            	System.out.println("Recived marker from : " + msg.split(":")[0]);
 		            	int snapId = Integer.parseInt(msg.split(":")[1].split("-")[1]);
-		            	snapshot.receiveMarker(Integer.parseInt(msg.split(":")[0]), snapId);
+		            	snapshot.receiveMarker(Integer.parseInt(msg.split(":")[0]), snapId, timestamp);
 		            	System.out.println("DONE");
 		            	continue;
 		            }

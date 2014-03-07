@@ -32,10 +32,10 @@ public class Snapshot
 		incomingChannelByProcess = new HashMap<Integer,Map<Integer, Queue<String>>>();
 	}
 	
-	public void receiveMarker(int id, int snapId) throws IOException
+	public void receiveMarker(int id, int snapId, TimeStamp t) throws IOException
 	{
 		if (!isStateRecorded[snapId]) {
-			initiateSnapshot(snapId);
+			initiateSnapshot(snapId,t);
 		}
 		
 		markersFromOthers.get(snapId).add(id);
@@ -46,7 +46,16 @@ public class Snapshot
 				Queue<String> q = e.getValue();
 				while (!q.isEmpty()) {
 					bw.write("snapshot" + snapId + " ");
-					bw.write(q.remove() + "\n");
+					String s = q.remove();
+					//1:1,1:6:3,2,3,0
+					//bw.write(q.remove() + "\n");
+					String[] tokens = s.split(":");
+					bw.write("logical " + tokens[2] + " ");
+					bw.write("vector " + tokens[3] + " ");
+					bw.write("message " + tokens[0] + " to " + processId + " ");
+					String money = tokens[1].split(",")[0];
+					String widgets = tokens[1].split(",")[1];
+					bw.write("money " + money + " widgets " + widgets + "\n");
 				}
 			}
 			bw.write("\n");
@@ -59,7 +68,7 @@ public class Snapshot
 		}
 	}
 	
-	public void initiateSnapshot(Integer snapshotId) throws IOException
+	public void initiateSnapshot(Integer snapshotId, TimeStamp t) throws IOException
 	{
 		Set<Integer>markersFromOthersForThisSnapshot = new HashSet<Integer>();	
 		markersFromOthers.put(snapshotId,markersFromOthersForThisSnapshot);
@@ -68,7 +77,9 @@ public class Snapshot
 		incomingChannelByProcess.put(snapshotId, incomingChannelByProcessForThisSnapshot);
 		
 		int[] temp = widget.getState();
-		bw.write("snapshot" + snapshotId + " Widgets Cost : " + temp[0] + ", Widgets Quantity : " + temp[1] + "\n");
+		bw.write("snapshot" + snapshotId);
+		bw.write(" logical " + t.getLamport() + " vector " + t.getVector());
+		bw.write(" money " + temp[0] + ", widgets " + temp[1] + "\n");
 		bw.flush();
 		widget.releaseLock();
 		

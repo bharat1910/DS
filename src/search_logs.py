@@ -7,8 +7,6 @@ and return the global state of the process given a snapshot id from those log fi
 import sys, os
 
 def main(argv):
-	print 'Number of arguments:', len(sys.argv), 'arguments.'
-	print 'Argument List:', str(sys.argv)
 	snapshot = 'snapshot' + sys.argv[1]
 	os.system("grep " + snapshot + " process_*_log.txt")
 

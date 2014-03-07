@@ -1,4 +1,4 @@
-snapshot0 Widgets Cost : 97, Widgets Quantity : 97
+snapshot0 logical 1 vector 0,1,0,0 money 98, widgets 98
 
-snapshot1 Widgets Cost : 98, Widgets Quantity : 105
+snapshot1 logical 17 vector 6,8,6,5 money 98, widgets 105
 

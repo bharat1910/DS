@@ -95,7 +95,7 @@ public class Process
 	    	if (tokens.length == 1) {
 	    		//l.putToSleep();
 	    		Integer tmp = new Integer(snapshotId);
-	    		snapshot.initiateSnapshot(tmp);
+	    		snapshot.initiateSnapshot(tmp, timestamp);
 	    		snapshotId++;
 	    		continue;
 	    	}

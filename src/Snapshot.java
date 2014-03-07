@@ -71,19 +71,27 @@ public class Snapshot
 			
 	    	String hostName = nodes[i].ipAddress;
 	    	Integer portNumber = nodes[i].portNumber;
-			try {
-		    	   Socket socket = new Socket(hostName, portNumber);
-		    	   PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-		    	   out.println(processId + ":marker");
-		    	   out.flush();
-		    	   System.out.println("Marker sent to : " + i);
-		    	   socket.close();
-			} catch(Exception e) {
-				System.out.println(e);
-			}
+	    	while(!sendMessage(hostName, portNumber,i));
+			
 		}
 	}
 	
+	private boolean sendMessage(String hostName, Integer portNumber,int i){
+		
+		try {
+	    	   Socket socket = new Socket(hostName, portNumber);
+	    	   PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+	    	   out.println(processId + ":marker");
+	    	   out.flush();
+	    	   System.out.println("Marker sent to : " + i);
+	    	   socket.close();
+	    	   return true;
+		} catch(Exception e) {
+			//System.out.println(e);
+			return false;
+		}
+		
+	}
 	public void checkAndAddMessage(String s)
 	{
 		int fromProcess = Integer.parseInt(s.split(":")[0]);

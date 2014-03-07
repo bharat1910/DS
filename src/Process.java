@@ -62,7 +62,7 @@ public class Process
 		
 	}
 	
-	public static void main(String[] args) throws NumberFormatException, IOException, InterruptedException
+	public static void main(String[] args) throws NumberFormatException, IOException, InterruptedException, Exception
 	{
 		String input;
 		processId = Integer.parseInt(args[0]);
@@ -85,11 +85,14 @@ public class Process
 	    
 	    while((input = br.readLine()) != null){
 	    	Thread.sleep(1000);
+	    	//l.putToSleep();
+	    	
 	    	String tokens[] = input.split(":");
 	    	
 	    	// No ':' in the message is indicative of a snapshot initiation step,
 	    	// because there is no receiver as such.
 	    	if (tokens.length == 1) {
+	    		//l.putToSleep();
 	    		snapshot.initiateSnapshot();
 	    		continue;
 	    	}
@@ -106,7 +109,9 @@ public class Process
 	    		message += i + ",";
 	    	}
 	    	message = message.substring(0, message.length() - 1);
+	    	message = message + ": Sent to " + nodeId;  
 	    	
+	    	widget.getState();
 	    	widget.update(-1 * Integer.parseInt(tokens[1].split(",")[0]), -1 * Integer.parseInt(tokens[1].split(",")[1]));
 	    	
 	    	while(!sendMessage(hostName, portNumber, message, widget));
@@ -123,7 +128,9 @@ public class Process
 	    	   out.println(message);
 	    	   out.flush();
 	    	   System.out.println("Message sent " + message);
-	    	   System.out.println("Current Widget cost : " + widget.cost + ", Widget quantity : " + widget.quantity);
+	    	   int[] temp = widget.getState();
+	    	   System.out.println("Current Widget cost : " + temp[0] + ", Widget quantity : " + temp[1]);
+	    	   widget.releaseLock();
 	    	   System.out.println();
 	    	   socket.close();
 	    	   return true;
@@ -131,4 +138,7 @@ public class Process
 	    		return false;
 	    	}	
 	}
+	 public void putToSleep() throws Exception{
+		   Thread.sleep(1000);
+	   }
 }

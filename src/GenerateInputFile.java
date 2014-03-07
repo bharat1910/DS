@@ -14,7 +14,7 @@ public class GenerateInputFile
 		for (int i=0; i<processId; i++) {
 			BufferedWriter bw = new BufferedWriter(new FileWriter("input_file_" + i + ".txt"));
 		
-			for (int j=0; j<30; j++) {
+			for (int j=0; j<100; j++) {
 				int prob = (int) (Math.random() * 15);
 				
 				if (i != 0 || (i == 0 && prob <14)) {

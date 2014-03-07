@@ -1,4 +1,8 @@
-Widgets Cost : 8, Widgets Quantity : 6
+Widgets Cost : 78, Widgets Quantity : 105
 
-Widgets Cost : 8, Widgets Quantity : 6
+Widgets Cost : 76, Widgets Quantity : 106
+
+Widgets Cost : 79, Widgets Quantity : 93
+
+Widgets Cost : 66, Widgets Quantity : 92
 

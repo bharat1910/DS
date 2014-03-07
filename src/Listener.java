@@ -46,7 +46,8 @@ class Listener implements Runnable {
 				//Socket clientSocket = serverSocket.accept();
 				InputStream input = null;
 				while (true) {
-					Thread.sleep(1000);
+					//.sleep(1000);
+					//Thread.sleep(1000);
 					Socket connection = serverSocket.accept();
 					input = connection.getInputStream();
 					BufferedReader reader = new BufferedReader(new InputStreamReader(input));
@@ -58,14 +59,18 @@ class Listener implements Runnable {
 		            	continue;
 		            }
 		            
+		            widget.getState();
 		            widget.update(Integer.parseInt(msg.split(":")[1].split(",")[0]), Integer.parseInt(msg.split(":")[1].split(",")[1]));
 		            
 		            int l = parseLamport(msg);
 		            int[] v = parseVector(msg);
 		            timestamp.increment(l, v);
+		            String[] tck = msg.split(":");
 		            
-					System.out.println("Message received - " + msg.split(":")[1] + ":" + timestamp.getLamport() + ":" + timestamp.getVector());
-			    	System.out.println("Current Widget cost : " + widget.cost + ", Widget quantity : " + widget.quantity);
+					System.out.println("Message received from - " + msg.split(":")[0] + ":" + msg.split(":")[1] + ":" + timestamp.getLamport() + ":" + timestamp.getVector() + ":" + tck[tck.length-1]);
+					int[] temp = widget.getState();
+					System.out.println("Current Widget cost : " + temp[0] + ", Widget quantity : " + temp[1]);
+					widget.releaseLock();
 			    	System.out.println();
 			    	
 			    	if (snapshot != null) {
@@ -79,6 +84,9 @@ class Listener implements Runnable {
 					System.out.println(e);
 			}
 	   }
-	
+		
+	   public void putToSleep() throws Exception{
+		   Thread.sleep(1000);
+	   }
 	
 }

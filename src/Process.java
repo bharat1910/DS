@@ -106,11 +106,12 @@ public class Process
 	    	String message = processId + ":" + tokens[1] + ":";
 	    	
 	    	//increment timestamps and append to the message
+	    	timestamp.acquireLock();
 	    	timestamp.increment(-1, null);
-	    	message += timestamp.lamport + ":";
-	    	for (int i : timestamp.vector) {
-	    		message += i + ",";
-	    	}
+	    	message += timestamp.getLamport() + ":";
+	    	message += timestamp.getVector();
+	    	timestamp.releaseLock();
+	    	
 	    	message = message.substring(0, message.length() - 1);
 	    	message = message + ": Sent to " + nodeId;  
 	    	

@@ -1,13 +1,25 @@
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 /*
  * Timestamp class is responsible for updating the timestamp for each 
  * event that occurs at a particular node.
  */
 
 class TimeStamp {
-	Integer lamport;
-	int[] vector;
+	private Integer lamport;
+	private int[] vector;
 	int nodeIndex;
+	Lock myLock = new ReentrantLock();
 	
+	public void acquireLock(){
+		while(!myLock.tryLock());
+		return;
+	}
+	
+	public void releaseLock(){
+		myLock.unlock();
+	}
 	public TimeStamp(int size, int nodeIndex)
 	{
 		lamport = 0;

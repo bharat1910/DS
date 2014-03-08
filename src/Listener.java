@@ -73,7 +73,9 @@ class Listener implements Runnable {
 		            
 		            int l = parseLamport(msg);
 		            int[] v = parseVector(msg);
+		            timestamp.acquireLock();
 		            timestamp.increment(l, v);
+		            timestamp.releaseLock();
 		            String[] tck = msg.split(":");
 		            
 					System.out.println("Message received from - " + msg.split(":")[0] + ":" + msg.split(":")[1] + ":" + timestamp.getLamport() + ":" + timestamp.getVector() + ":" + tck[tck.length-1]);

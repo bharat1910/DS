@@ -1,4 +1,6 @@
-snapshot0 logical 1 vector 0,1,0,0 money 98, widgets 98
+snapshot0 logical 6 vector 3,5,0,0 money 98, widgets 96
 
-snapshot1 logical 17 vector 6,8,6,5 money 98, widgets 105
+snapshot1 logical 35 vector 19,15,18,0 money 96, widgets 90
+
+snapshot2 logical 53 vector 27,23,26,0 money 96, widgets 91
 

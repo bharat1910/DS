@@ -77,10 +77,12 @@ public class Snapshot
 		incomingChannelByProcess.put(snapshotId, incomingChannelByProcessForThisSnapshot);
 		
 		int[] temp = widget.getState();
+		t.acquireLock();
 		bw.write("snapshot" + snapshotId);
 		bw.write(" logical " + t.getLamport() + " vector " + t.getVector());
 		bw.write(" money " + temp[0] + ", widgets " + temp[1] + "\n");
 		bw.flush();
+		t.releaseLock();
 		widget.releaseLock();
 		
 		for (int i=0; i<nodes.length; i++) {

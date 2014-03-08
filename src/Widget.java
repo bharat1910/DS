@@ -1,6 +1,10 @@
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+/*
+ * Widget class encapsulates the data that is being sent for particular
+ * nodes.
+ */
 
 public class Widget
 {

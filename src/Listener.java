@@ -4,8 +4,12 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/*
+ * Listner thread which is responsible for recieving the messages and updating the main thread. 
+ */
+
 class Listener implements Runnable {
-	   // This is the entry point for the second thread.
+	// This is the entry point for the second thread.
 	   
 	Node []nodes;
 	int id;

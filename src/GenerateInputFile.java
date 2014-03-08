@@ -4,6 +4,14 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/*
+ * This module is used to randomly generate a sequence of events 
+ * for different processes. Files like input_file_0.txt, input_file_1.txt 
+ * are generated for each set of processes.
+ * Note that this module takes care of the snapshot message is generated with 
+ * a particular probability for the initiator node. 
+ */
+
 public class GenerateInputFile
 {
 	public void run() throws NumberFormatException, IOException

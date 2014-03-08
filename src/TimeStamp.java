@@ -1,3 +1,8 @@
+/*
+ * Timestamp class is responsible for updating the timestamp for each 
+ * event that occurs at a particular node.
+ */
+
 class TimeStamp {
 	Integer lamport;
 	int[] vector;

@@ -73,7 +73,7 @@ public class Process
 		
 		readFile();
 		
-		Snapshot snapshot = new Snapshot(nodes, processId, widget);
+		Snapshot snapshot = new Snapshot(nodes, processId, widget, Integer.parseInt(args[3]));
 		
 		TimeStamp timestamp = new TimeStamp(nodes.length, processId);
 		

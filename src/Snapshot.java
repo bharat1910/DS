@@ -21,15 +21,16 @@ public class Snapshot
 	BufferedWriter bw;
 	Widget widget;
 
-	public Snapshot(Node[] n, int pId, Widget w) throws IOException
+	public Snapshot(Node[] n, int pId, Widget w, int nsnaps) throws IOException
 	{
 		nodes = n;
 		processId = pId;
 		bw = new BufferedWriter(new FileWriter("process_" + processId + "_log.txt"));
 		widget = w;
-		isStateRecorded = new boolean[n.length];
+		isStateRecorded = new boolean[nsnaps];
 		markersFromOthers = new HashMap<Integer,Set<Integer>>();
 		incomingChannelByProcess = new HashMap<Integer,Map<Integer, Queue<String>>>();
+
 	}
 	
 	public void receiveMarker(int id, int snapId, TimeStamp t) throws IOException

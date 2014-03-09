@@ -117,14 +117,15 @@ public class Process
 	    	
 	    	widget.getState();
 	    	widget.update(-1 * Integer.parseInt(tokens[1].split(",")[0]), -1 * Integer.parseInt(tokens[1].split(",")[1]));
-	    	
-	    	while(!sendMessage(hostName, portNumber, message, widget));
+	    	int[] temp = widget.getState();
+	    	while(!sendMessage(hostName, portNumber, message, widget,temp));
+	    	widget.releaseLock();
 	    }
 	    
 	    br.close();
 	}
 
-	private static boolean sendMessage(String hostName, Integer portNumber,	String message, Widget widget)
+	private static boolean sendMessage(String hostName, Integer portNumber,	String message, Widget widget, int []temp)
 	{
     	try {
 	    	   Socket socket = new Socket(hostName, portNumber);
@@ -132,9 +133,8 @@ public class Process
 	    	   out.println(message);
 	    	   out.flush();
 	    	   System.out.println("Message sent " + message);
-	    	   int[] temp = widget.getState();
 	    	   System.out.println("Current Widget cost : " + temp[0] + ", Widget quantity : " + temp[1]);
-	    	   widget.releaseLock();
+
 	    	   System.out.println();
 	    	   socket.close();
 	    	   return true;

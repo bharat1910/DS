@@ -42,7 +42,7 @@ public class GenerateInputFile
 		
 		for (int i=1; i<processId; i++) {
 			bw = new BufferedWriter(new FileWriter("input_file_" + i + ".txt"));
-			for (int j=0; j<50; j++) {
+			for (int j=0; j<10; j++) {
 				int pId =  i;
 				while (pId == i) {
 					pId = (int) (Math.random() * processId);

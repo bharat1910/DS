@@ -84,7 +84,7 @@ public class Snapshot
 		bw.write(" money " + temp[0] + ", widgets " + temp[1] + "\n");
 		bw.flush();
 		t.releaseLock();
-		widget.releaseLock();
+		
 		
 		for (int i=0; i<nodes.length; i++) {
 			if (i == processId) {
@@ -96,6 +96,7 @@ public class Snapshot
 	    	while(!sendMessage(hostName, portNumber,i, snapshotId));
 			
 		}
+		widget.releaseLock();
 	}
 	
 	private boolean sendMessage(String hostName, Integer portNumber,int i, int snapshotId){
